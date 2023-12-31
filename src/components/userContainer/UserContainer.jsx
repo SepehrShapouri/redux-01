@@ -1,27 +1,27 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../../redux/user/userActions";
+import { getAsyncUsers } from "../../features/user/userSlice";
 
 function UserContainer() {
-  const { isLoading, data, error } = useSelector((state) => state.user);
+  const { isLoading, error, data } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchUser());
+    dispatch(getAsyncUsers());
   }, [dispatch]);
   return (
     <div>
-      <h1>user List</h1>
-      {isLoading ? (
-        <p>loading data...</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
-        <div>
-          {data.map((user) => (
-            <li key={user.id}>{user.name}</li>
-          ))}
-        </div>
-      )}
+      <h2>user list</h2>
+      <div>
+        {isLoading ? (
+          <p>loading</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          data.map((user) => {
+            return <li key={user.id}>{user.name}</li>;
+          })
+        )}
+      </div>
     </div>
   );
 }
